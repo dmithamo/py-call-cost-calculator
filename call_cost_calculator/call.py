@@ -7,7 +7,7 @@ the cost of a telephone call.
 import datetime 
 
 class Call:
-    '''Model a call with params as below:
+    '''Model a call with class params as below:
 
     :param MINIMUM_COST_NEAR : The applicable minimum cost for a short distance call
     :type MINIMUM_COST_NEAR : float, constant
@@ -23,16 +23,21 @@ class Call:
 
     :param DISTANCE_DELIMITER : The preset for boundary value for short distances
     :type DISTANCE_DELIMITER : int, constant
+
+    :param VAT : The preset for boundary value for short distances
+    :type VAT : float, constant
     
     '''
     MINIMUM_COST_NEAR = 0.20
     MINIMUM_COST_FAR = 0.50
     OFF_PEAK_START = datetime.time(19, 0, 0)
     OFF_PEAK_END = datetime.time(6, 59, 59)
+    DISTANCE_DELIMITER = 50
+    VAT = 0.14
     
 
     def __init__(self, call_start_time=None, call_end_time=None, if_long_distance=None, if_share_call=None):
-        '''Return an instance of a Call object
+        '''Return an instance of a Call object with instance variables as below
         :param call_start_time : time when call was initiated. Format HH:MM:SS
         :type call_start_time : datetime.time object
 
@@ -51,7 +56,6 @@ class Call:
         self.if_long_distance = if_long_distance 
         self.if_share_call = if_share_call
 
-    
     def collect_call_time(self):
         '''Ask for user-input for call_start_time and call_end_time
         '''
@@ -78,7 +82,23 @@ class Call:
 
         time_object = datetime.time(hh, mm, ss)
         return time_object
+    
+    def calculate_call_duration(self, call_start_time, call_end_time):
+        '''Calculate length of call in seconds'''
 
-# lo_call = Call()
+        starting_time_in_secs = call_start_time.hour * 60 * 60 
+        + call_start_time.minute * 60 + call_start_time.second
 
-# print(lo_call.OFF_PEAK_END)
+        ending_time_in_secs = call_end_time.hour * 60 * 60 
+        + call_end_time.minute * 60 + call_end_time.second
+
+        self.call_duration = ending_time_in_secs - starting_time_in_secs
+        
+        return self.call_duration
+
+
+
+
+lo_call = Call()
+
+print(lo_call.OFF_PEAK_END, lo_call.call_end_time, lo_call.call_start_time)
