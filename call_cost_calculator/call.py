@@ -25,7 +25,11 @@ class Call:
     :type DISTANCE_DELIMITER : int, constant
     
     '''
-    def __init__(self):
+    MINIMUM_COST_NEAR = 0.20
+    MINIMUM_COST_FAR = 0.50
+    
+
+    def __init__(self, call_start_time=None, call_end_time=None, if_long_distance=None, if_share_call=None):
         '''Return an instance of a Call object
         :param call_start_time : time when call was initiated. Format HH:MM:SS
         :type call_start_time : datetime.time object
@@ -40,7 +44,11 @@ class Call:
         :type if_share_call : boolean
 
         '''
-        self.collect_call_time()
+        self.call_start_time = call_start_time 
+        self.call_end_time = call_end_time 
+        self.if_long_distance = if_long_distance 
+        self.if_share_call = if_share_call
+
     
     def collect_call_time(self):
         '''Ask for user-input for call_start_time and call_end_time
@@ -50,26 +58,21 @@ class Call:
         call_end_time = input("\n\nCall finished at: Use this format - HH:MM:SS\n>>")
 
         # Convert to objects, and save as instance variables
-        self.call_start_time = convert_time_to_object(call_start_time)
-        self.call_end_time = convert_time_to_object(call_end_time)
+        self.call_start_time = self.convert_time_to_object(call_start_time)
+        self.call_end_time = self.convert_time_to_object(call_end_time)
         print("Started: %s\nFinished: %s" % (call_start_time, call_end_time))
 
 
-def convert_time_to_object(time_input):
-    '''Global method used to convert input time into a time object
-    '''
-    # Time collected into a list of the hours, mins, and secs
-    time_as_list = time_input.split(':')
+    def convert_time_to_object(self, time_input):
+        '''Global method used to convert input time into a time object
+        '''
+        # Time collected into a list of the hours, mins, and secs
+        time_as_list = time_input.split(':')
 
-    # Extract hours (hh), minutes (mm), seconds (ss) from time_as_list and use to make time object
-    hh = int(time_as_list[0])
-    mm = int(time_as_list[1])
-    ss = int(time_as_list[2])
+        # Extract hours (hh), minutes (mm), seconds (ss) from time_as_list and use to make time object
+        hh = int(time_as_list[0])
+        mm = int(time_as_list[1])
+        ss = int(time_as_list[2])
 
-    time_object = datetime.time(hh, mm, ss)
-    return time_object
-        
-
-call_lo = Call()
-
-print(call_lo.call_end_time)
+        time_object = datetime.time(hh, mm, ss)
+        return time_object
