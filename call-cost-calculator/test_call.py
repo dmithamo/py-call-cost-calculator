@@ -3,7 +3,7 @@ Unittests for the Call class
 '''
 
 import unittest
-from call_cost_calculator import Call 
+from classes.call import Call 
 
 class TestCall(unittest.TestCase):
     '''Define the parent class to contain the test cases'''
