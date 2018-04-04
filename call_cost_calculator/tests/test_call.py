@@ -19,6 +19,7 @@ class TestCall(unittest.TestCase):
             datetime.time(10, 30, 30), datetime.time(12, 30, 30)), 7200)
         
     def test_if_time_is_of_peak(self):
+        '''Test the function that determines whether call time is off peak or not'''
         start_time = datetime.time(19, 20, 30)
         end_time = datetime.time(5, 20, 30)
         self.assertEqual(self.my_call.determine_if_off_peak(start_time, end_time), True)
@@ -36,6 +37,8 @@ class TestCall(unittest.TestCase):
         '''Test the function that marks a call as share-call or not'''
         self.assertEqual(self.my_call.determine_if_share_call(), True)
         self.assertEqual(self.my_call.determine_if_share_call(), False)
+    
+        
         
 if __name__ == '__main__':
     unittest.main()
