@@ -18,9 +18,19 @@ class TestCall(unittest.TestCase):
         self.assertEqual(self.my_call.calculate_call_duration(
             datetime.time(10, 30, 30), datetime.time(12, 30, 30)), 7200)
         
+    def test_if_time_is_of_peak(self):
+        self.assertEqual(self.my_call.determine_if_off_peak(), True)
+        self.assertEqual(self.my_call.determine_if_off_peak(), False)
+        
     def test_if_call_long_distance_calculation(self):
         '''Test the function that marks a call as long distant or not'''
-        self.assertEqual(self.my_call.determine_if_long_distant(60), True)
+        self.assertEqual(self.my_call.determine_if_long_distant(), False)
+        self.assertEqual(self.my_call.determine_if_long_distant(), True)
+        
+    def test_if_call_is_share_call_function(self):
+        '''Test the function that marks a call as share-call or not'''
+        self.assertEqual(self.my_call.determine_if_share_call(), True)
+        self.assertEqual(self.my_call.determine_if_share_call(), False)
         
 if __name__ == '__main__':
     unittest.main()

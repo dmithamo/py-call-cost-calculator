@@ -96,15 +96,22 @@ class Call:
 
         return self.call_duration
     
-    def determine_if_long_distant(self, call_distance):
+    def determine_if_long_distant(self):
         call_distance = input("\nHow far off is this call made? Enter an estimate in km:\n>>")
-        if int(call_distance) <= Call.DISTANCE_DELIMITER:
+        if int(call_distance) >= Call.DISTANCE_DELIMITER:
             self.if_long_distance = True
         else:
             self.if_long_distance = False
 
         return self.if_long_distance
-
+    
+    def determine_if_share_call(self):
+        is_share_call = input("\nIs this a share-call? Enter 'y' for yes, 'n' for no\n>>").lower()
+        if is_share_call == 'y':
+            self.is_share_call = True
+        elif is_share_call == 'n':
+            self.is_share_call = False
+        return self.is_share_call
 
 lo_call = Call()
 
