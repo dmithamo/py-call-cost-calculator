@@ -27,6 +27,8 @@ class Call:
     '''
     MINIMUM_COST_NEAR = 0.20
     MINIMUM_COST_FAR = 0.50
+    OFF_PEAK_START = datetime.time(19, 0, 0)
+    OFF_PEAK_END = datetime.time(6, 59, 59)
     
 
     def __init__(self, call_start_time=None, call_end_time=None, if_long_distance=None, if_share_call=None):
@@ -76,3 +78,7 @@ class Call:
 
         time_object = datetime.time(hh, mm, ss)
         return time_object
+
+# lo_call = Call()
+
+# print(lo_call.OFF_PEAK_END)
