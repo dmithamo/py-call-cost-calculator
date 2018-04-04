@@ -93,10 +93,17 @@ class Call:
         + call_end_time.minute * 60 + call_end_time.second
 
         self.call_duration = ending_time_in_secs - starting_time_in_secs
-        
+
         return self.call_duration
+    
+    def determine_if_long_distant(self, call_distance):
+        call_distance = input("\nHow far off is this call made? Enter an estimate in km:\n>>")
+        if int(call_distance) <= Call.DISTANCE_DELIMITER:
+            self.if_long_distance = True
+        else:
+            self.if_long_distance = False
 
-
+        return self.if_long_distance
 
 
 lo_call = Call()
