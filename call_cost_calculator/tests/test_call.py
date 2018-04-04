@@ -19,8 +19,13 @@ class TestCall(unittest.TestCase):
             datetime.time(10, 30, 30), datetime.time(12, 30, 30)), 7200)
         
     def test_if_time_is_of_peak(self):
-        self.assertEqual(self.my_call.determine_if_off_peak(), True)
-        self.assertEqual(self.my_call.determine_if_off_peak(), False)
+        start_time = datetime.time(18, 20, 30)
+        end_time = datetime.time(5, 20, 30)
+        self.assertEqual(self.my_call.determine_if_off_peak(start_time, end_time), True)
+
+        start_time2 = datetime.time(11, 10, 10)
+        end_time2 = datetime.time(15, 10, 10)
+        self.assertEqual(self.my_call.determine_if_off_peak(start_time2, end_time2), True)
         
     def test_if_call_long_distance_calculation(self):
         '''Test the function that marks a call as long distant or not'''

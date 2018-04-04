@@ -96,6 +96,14 @@ class Call:
 
         return self.call_duration
     
+    def determine_if_off_peak(self, call_start_time, call_end_time):
+        if call_start_time >= Call.OFF_PEAK_START and call_end_time <= Call.OFF_PEAK_END:
+            self.is_off_peak = True
+        else:
+            self.is_off_peak = False
+        return self.is_off_peak
+        
+    
     def determine_if_long_distant(self):
         call_distance = input("\nHow far off is this call made? Enter an estimate in km:\n>>")
         if int(call_distance) >= Call.DISTANCE_DELIMITER:
