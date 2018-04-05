@@ -148,26 +148,28 @@ class Call:
     def calculate_cost(self):
         '''Collect all params, call appropriate method for cost calculation'''
         call_start_time, call_end_time = self.collect_call_time()
+        call_duration = self.calculate_call_duration(call_start_time, call_end_time)
         is_off_peak = self.determine_if_off_peak(call_start_time)
         is_long_distant = self.determine_if_long_distant()
 
         # Call appropriate cost calculation method
         if is_long_distant:
-            call_params = self.calculate_basic_cost_long_distant(call_start_time, call_end_time, is_off_peak)
+            pretax_costs = self.calculate_basic_cost_long_distant(call_duration, is_off_peak)
         else:
-            call_params = self.calculate_basic_cost_short_distant(call_start_time, call_end_time, is_off_peak)
+            pretax_costs = self.calculate_basic_cost_short_distant(call_duration, is_off_peak)
+        
+        # Apply tax
+        vat = self.calculate_vat(pretax_costs)
         
         # Display everything
-        self.presentation(call_params)
+        self.presentation(call_start_time, call_end_time, call_duration, pretax_costs, vat)
 
-        return call_params
+        return pretax_costs
 
 
     
-    def calculate_basic_cost_long_distant(self, call_start_time, call_end_time, is_off_peak):
+    def calculate_basic_cost_long_distant(self, call_duration, is_off_peak):
         '''Calculate the basic_call_cost, without VAT or discount'''
-        call_duration = self.calculate_call_duration(call_start_time, call_end_time)
-
         basic_cost = Call.MINIMUM_COST_FAR + (Call.PER_SECOND_COST_FAR * call_duration)
 
         discount = 0.00 # Default value of discouunt
@@ -175,13 +177,17 @@ class Call:
             discount = Call.OFF_PEAK_DISCOUNT_FAR * basic_cost
 
         discounted_cost = basic_cost - discount
-        
-        return basic_cost, discount, discounted_cost
-    
-    def calculate_basic_cost_short_distant(self, call_start_time, call_end_time, is_off_peak):
-        '''Calculate the basic_call_cost, without VAT'''
-        call_duration = self.calculate_call_duration(call_start_time, call_end_time)
 
+        pretax_costs = {
+            "basic cost": basic_cost,
+            "discount": discount,
+            "discounted cost": discounted_cost
+        }
+        
+        return pretax_costs
+    
+    def calculate_basic_cost_short_distant(self, call_duration, is_off_peak):
+        '''Calculate the basic_call_cost, without VAT'''
         basic_cost = Call.MINIMUM_COST_NEAR + (Call.PER_SECOND_COST_NEAR * call_duration)
 
         discount = 0.00 # Default value of discouunt
@@ -189,8 +195,18 @@ class Call:
             discount = Call.OFF_PEAK_DISCOUNT_NEAR * basic_cost
 
         discounted_cost = basic_cost - discount
-        return basic_cost, discount, discounted_cost
-    
-    def presentation(self, call_params):
+        
+        pretax_costs = {
+            "basic cost": basic_cost,
+            "discount": discount,
+            "discounted cost": discounted_cost
+        }
+        
+        return pretax_costs
+
+    def calculate_vat(self, pretax_costs):
+        vat = pretax_costs[2] * 0.14
+        return vat
+
+    def presentation(self, call_start_time, call_end_time, call_duration, pretax_costs, vat):
         '''Display e'erthing to user'''
-        pass
