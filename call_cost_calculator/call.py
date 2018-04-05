@@ -77,10 +77,13 @@ class Call:
         '''Ask for user-input for call_start and call_end
         '''
         # Determine call_start and call_end
+        print("=="*50)
+        print("\n\n\t\t\tWELCOME TO THIS PROGRAM. IT CALCULATES STUFF\n\n")
+        print("=="*50)
         call_start = input(
-            "\nCall started at: Use this format - h:m:s\n>>")
+            "\n Call started at: Use this format - h:m:s\n\n >>")
         call_end = input(
-            "\n\nCall finished at: Use this format - h:m:s\n>>")
+            "\n Call finished at: Use this format - h:m:s\n\n >>")
 
         # Convert to objects, and save as instance variables
         self.call_start = self.convert_time_to_object(call_start)
@@ -125,7 +128,7 @@ class Call:
     def determine_if_long_distant(self):
         '''Return bool indicating whether call is long distant or not'''
         call_distance = input(
-            "\nHow far off is this call made? Enter an estimate in km:\n>>")
+            "\n How far off is this call made? Enter an estimate in km:\n\n >>")
 
         if int(call_distance) >= Call.DISTANCE_DELIMITER:
             self.long_distant = True
@@ -138,7 +141,7 @@ class Call:
     def determine_if_share_call(self):
         '''Return bool marking call as share_call or not'''
         is_share_call = input(
-            "\nIs this a share-call? Enter 'y' for yes, 'n' for no\n>>").lower()
+            "\n Is this a share-call? Enter 'y' for yes, 'n' for no\n\n >>").lower()
         if is_share_call == 'y':
             self.is_share_call = True
         elif is_share_call == 'n':
@@ -161,8 +164,17 @@ class Call:
         # Apply tax
         vat = self.calculate_vat(pretax_costs)
         
+        # Collect all user-defined call params in a dict
+        all_call_params = {
+            "Call Start Time": call_start_time,
+            "Call End Time": call_end_time,
+            "Call Duration in Seconds": call_duration,
+            "Call Off-Peak": is_off_peak,
+            "Call Long Distant": is_long_distant,
+        }
+
         # Display everything
-        self.presentation(call_start_time, call_end_time, call_duration, pretax_costs, vat)
+        self.presentation(all_call_params, pretax_costs, vat)
 
         return pretax_costs
 
@@ -179,9 +191,9 @@ class Call:
         discounted_cost = basic_cost - discount
 
         pretax_costs = {
-            "basic cost": basic_cost,
-            "discount": discount,
-            "discounted cost": discounted_cost
+            "Basic Cost": basic_cost,
+            "Discount": discount,
+            "Discounted Cost": discounted_cost
         }
         
         return pretax_costs
@@ -195,18 +207,43 @@ class Call:
             discount = Call.OFF_PEAK_DISCOUNT_NEAR * basic_cost
 
         discounted_cost = basic_cost - discount
-        
+
         pretax_costs = {
-            "basic cost": basic_cost,
-            "discount": discount,
-            "discounted cost": discounted_cost
+            "Basic Cost": basic_cost,
+            "Discount": discount,
+            "Discounted Cost": discounted_cost
         }
         
         return pretax_costs
 
     def calculate_vat(self, pretax_costs):
-        vat = pretax_costs[2] * 0.14
+        vat = pretax_costs["Discounted Cost"] * 0.14
         return vat
 
-    def presentation(self, call_start_time, call_end_time, call_duration, pretax_costs, vat):
+    def presentation(self, all_call_params, pretax_costs, vat):
         '''Display e'erthing to user'''
+        print("\n\n")
+        print("=="*50)
+        print("\n\nYOUR CALL'S PARAMETERS\n")
+        for key, value in all_call_params.items():
+            print("   %s : %s\n" % (key, value))
+        print("=="*50)
+
+        print("\n\nYOUR CALL'S COSTS\n")
+        for key, value in pretax_costs.items():
+            print("   %s : Ksh. %s\n\n" % (key, round(value, 3)))
+        print("=="*50)
+        print("\n Value Added Tax : Ksh. %s\n" % round(vat, 3))
+        print("--"*50)
+        print("\n FINAL COST : Ksh. %s" % round((pretax_costs["Discounted Cost"] + vat), 3))
+        print("=="*50)
+    
+lo_call = Call()
+
+lo_call.calculate_cost()
+
+
+        
+        
+
+
