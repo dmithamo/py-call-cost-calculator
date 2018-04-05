@@ -77,13 +77,13 @@ class Call:
         '''Ask for user-input for call_start and call_end
         '''
         # Determine call_start and call_end
-        print("=="*50)
-        print("\n\n\t\t\tWELCOME TO THIS PROGRAM. IT CALCULATES STUFF\n\n")
-        print("=="*50)
+        print("=="*70)
+        print("\n\n\t\t\tWELCOME TO THIS PROGRAM. IT CALCULATES THE COST OF A TELEPHONE CALL, GIVEN SOME INFO\n\n")
+        print("=="*70)
         call_start = input(
-            "\n Call started at: Use this format - h:m:s\n\n >>")
+            "\n Call started at: Use this format - h:m:s [e.g. 10:00:00] \n\n >>")
         call_end = input(
-            "\n Call finished at: Use this format - h:m:s\n\n >>")
+            "\n Call finished at: Use this format - h:m:s [e.g. 10:00:00] \n\n >>")
 
         # Convert to objects, and save as instance variables
         self.call_start = self.convert_time_to_object(call_start)
@@ -223,20 +223,20 @@ class Call:
     def presentation(self, all_call_params, pretax_costs, vat):
         '''Display e'erthing to user'''
         print("\n\n")
-        print("=="*50)
+        print("=="*70)
         print("\n\nYOUR CALL'S PARAMETERS\n")
         for key, value in all_call_params.items():
             print("   %s : %s\n" % (key, value))
-        print("=="*50)
+        print("=="*70)
 
         print("\n\nYOUR CALL'S COSTS\n")
         for key, value in pretax_costs.items():
-            print("   %s : Ksh. %s\n\n" % (key, round(value, 3)))
-        print("=="*50)
-        print("\n Value Added Tax : Ksh. %s\n" % round(vat, 3))
-        print("--"*50)
-        print("\n FINAL COST : Ksh. %s" % round((pretax_costs["Discounted Cost"] + vat), 3))
-        print("=="*50)
+            print("   %s : Ksh. %s\n\n" % (key, round(value, 2)))
+        print("=="*70)
+        print("\n Value Added Tax : Ksh. %s\n" % round(vat, 2))
+        print("--"*70)
+        print("\n FINAL COST : Ksh. %s" % round((pretax_costs["Discounted Cost"] + vat), 2))
+        print("=="*70)
     
 lo_call = Call()
 
