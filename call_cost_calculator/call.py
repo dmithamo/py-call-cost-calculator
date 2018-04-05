@@ -194,6 +194,3 @@ class Call:
     def presentation(self, call_params):
         '''Display e'erthing to user'''
         pass
-
-# lo_call = Call()
-# lo_call.calculate_cost()
